@@ -21,7 +21,6 @@ ELEVENLABS_API_KEY = os.getenv("ELEVENLABS_API_KEY")
 VOICE_ID = os.getenv("VOICE_ID")
 GEMINI_LLM_MODEL = os.getenv("GEMINI_LLM_MODEL")
 LOL_LOCKFILE_PATH = os.getenv("LOL_LOCKFILE_PATH")
-POLL_INTERVAL = os.getenv("POLL_INTERVAL")
 
 # --- LCU (League Client Update) API Communication ---
 def read_lockfile(path=LOL_LOCKFILE_PATH):
