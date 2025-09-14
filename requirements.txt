@@ -1,0 +1,7 @@
+moviepy
+google-generativeai
+elevenlabs
+python-dotenv
+requests
+mutagen
+pygame
