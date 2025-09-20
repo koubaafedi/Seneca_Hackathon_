@@ -35,6 +35,9 @@ def load_env():
                     elif key == 'LOL_LOCKFILE_PATH':
                         entry_lol_lockfile_path.delete(0, ctk.END)
                         entry_lol_lockfile_path.insert(0, value.strip('"'))
+                    elif key == 'VOICE_ID':
+                        entry_voice_id.delete(0, ctk.END)
+                        entry_voice_id.insert(0, value)
     else:
         logging.debug("No .env file found")
 
@@ -61,9 +64,10 @@ def write_env_and_run():
     gemini_llm_model = entry_gemini_llm_model.get()
     elevenlabs_api_key = entry_elevenlabs_api_key.get()
     lol_lockfile_path = entry_lol_lockfile_path.get()
+    voice_id = entry_voice_id.get()
 
     # Validate required fields
-    if not all([gemini_api_key, gemini_llm_model, elevenlabs_api_key, lol_lockfile_path]):
+    if not all([gemini_api_key, gemini_llm_model, elevenlabs_api_key, lol_lockfile_path, voice_id]):
         messagebox.showerror("Error", "Please fill in all required fields.")
         logging.error("Validation failed: Missing required fields")
         return
@@ -77,7 +81,7 @@ def write_env_and_run():
 GEMINI_LLM_MODEL={gemini_llm_model}
 ELEVENLABS_API_KEY={elevenlabs_api_key}
 LOL_LOCKFILE_PATH="{lol_lockfile_path}"
-VOICE_ID=zGDcfWXcfXiClzqvQasP
+VOICE_ID={voice_id}
 """
     logging.debug(f".env content to write:\n{env_content}")
 
@@ -138,7 +142,7 @@ VOICE_ID=zGDcfWXcfXiClzqvQasP
 root = ctk.CTk()
 root.title("LoL AI Commentator Setup - Hyprland Edition")
 root.geometry("900x700")
-root.resizable(False, False)
+root.resizable(True, True)
 root.attributes('-alpha', 0.95)
 
 # Fonts and colors
@@ -175,6 +179,26 @@ ctk.CTkLabel(
     wraplength=600
 ).pack(pady=10)
 
+# Run button with animation
+run_button = ctk.CTkButton(
+    main_frame,
+    text="Launch System",
+    font=button_font,
+    fg_color=button_bg,
+    hover_color=button_active_bg,
+    text_color=fg_color,
+    command=write_env_and_run,
+    width=200,
+    height=50,
+    corner_radius=10
+)
+run_button.pack(pady=30)
+
+# Progress bar for launching
+progress_bar = ctk.CTkProgressBar(main_frame, mode="indeterminate", width=300, fg_color=entry_bg, progress_color=accent_color)
+progress_bar.pack(pady=10)
+progress_bar.set(0)
+
 # Form frame
 form_frame = ctk.CTkFrame(main_frame, fg_color=bg_color)
 form_frame.pack(pady=20, fill="x", padx=20)
@@ -185,6 +209,7 @@ for i, (label_text, entry_var, default_value, show) in enumerate([
     ("Gemini LLM Model:", "entry_gemini_llm_model", "gemini-2.5-flash-lite", ""),
     ("ElevenLabs API Key:", "entry_elevenlabs_api_key", None, "*"),
     ("LoL Lockfile Path:", "entry_lol_lockfile_path", "D:/Riot Games/League of Legends/lockfile", ""),
+    ("Voice ID:", "entry_voice_id", None, ""),
 ]):
     ctk.CTkLabel(form_frame, text=label_text, font=label_font, text_color=fg_color).grid(row=i, column=0, padx=10, pady=10, sticky="e")
     
@@ -241,25 +266,6 @@ output_text = ctk.CTkTextbox(
 )
 output_text.pack(pady=10, fill="x", padx=20)
 
-# Progress bar for launching
-progress_bar = ctk.CTkProgressBar(main_frame, mode="indeterminate", width=300, fg_color=entry_bg, progress_color=accent_color)
-progress_bar.pack(pady=10)
-progress_bar.set(0)
-
-# Run button with animation
-run_button = ctk.CTkButton(
-    main_frame,
-    text="Launch System",
-    font=button_font,
-    fg_color=button_bg,
-    hover_color=button_active_bg,
-    text_color=fg_color,
-    command=write_env_and_run,
-    width=200,
-    height=50,
-    corner_radius=10
-)
-run_button.pack(pady=30)
 
 # Keyboard binding for Enter key
 root.bind('<Return>', lambda e: write_env_and_run())
