@@ -1,127 +1,100 @@
-# AI LoL Commentator: Real-Time AI-Powered Esports Commentary for League of Legends
+https://drive.google.com/file/d/1QPj9sGfpCQqWtEf9Jb7zkqMZNCCmcqiW/view?usp=drive_link
 
-![League of Legends Commentary Demo](https://via.placeholder.com/800x400?text=AI+LoL+Commentator+Demo)  
-*(Replace with an actual screenshot or GIF of the system in action, e.g., console output with commentary audio playing.)*
+# 🎙️ AI LoL Commentator: Real-Time AI-Powered Esports Commentary for League of Legends
 
-## Overview
+Welcome to **AI LoL Commentator**, an innovative, AI-driven system that transforms ordinary League of Legends (LoL) gameplay into a dynamic, professional esports broadcast. This tool uses real-time data from the LoL Client and Live Client APIs to detect critical in-game events—such as kills, turret takedowns, and objectives—and generates energetic, exciting commentary on the fly.
 
-Welcome to **AI LoL Commentator**, an innovative AI-driven system that transforms League of Legends (LoL) gameplay into an exciting, professional esports broadcast! Built for hackathons like this one, our tool uses real-time data from the LoL Client API (LCU) and Live Client API to detect game events—such as kills, turret destructions, dragon slays, and team fights—and generates dynamic, energetic commentary. 
-
-The commentary is powered by Google's Gemini AI for natural language generation and ElevenLabs for high-quality text-to-speech (TTS) audio output. Imagine watching a spectator mode game with a live announcer hyping up every play, just like a real esports tournament. This project demonstrates how AI can enhance gaming experiences, making them more immersive and accessible for viewers, streamers, and casual players.
-
-Our core idea: Leverage spectator mode in LoL to fetch live game data without interfering with gameplay. We poll the APIs for events, process them into contextual prompts, generate commentary, and convert it to spoken audio—all in real-time!
+Powered by Google's **Gemini AI** for natural language generation and **ElevenLabs** for high-fidelity text-to-speech (TTS), our system provides an immersive, audio-enhanced viewing experience.
 
 ### Why This Matters
-- **For Gamers & Streamers**: Adds professional flair to personal streams or replays.
-- **For Esports**: Prototype for automated commentary in lower-tier tournaments or highlight reels.
-- **Hackathon Innovation**: Combines API hacking, AI generation, and TTS in a seamless pipeline
 
-## How It Works
+* **For Viewers & Streamers:** Adds a professional, engaging audio layer to streams and replays, elevating the viewer experience.
+* **For Esports:** Serves as a prototype for automated commentary, scalable for lower-tier tournaments or dynamic highlight reel creation.
+* **For AI Enthusiasts:** Combines API interaction, real-time event processing, and advanced LLM/TTS technologies into a functional, end-to-end application.
 
-The system operates in a continuous loop, monitoring the game's phase and events:
+---
 
-1. **Data Acquisition**:
-   - Reads the LoL lockfile to authenticate and connect to the LCU API (for champ select and game flow) and Live Client API (for in-game events).
-   - Polls for game phases: Lobby, Champ Select, In-Progress, etc.
+### How It Works: The AI-Driven Commentary Pipeline
 
-2. **Event Detection**:
-   - During Champ Select: Tracks team compositions and announces when ready.
-   - In-Game: Fetches new events like GameStart, ChampionKill, TurretKilled, DragonKill, BaronKill, etc.
-   - Maintains a stateful context (e.g., seen events) to avoid duplicates and build narrative continuity.
+The system operates in a continuous, low-latency loop, monitoring the game state and narrating key moments.
 
-3. **AI Commentary Generation**:
-   - Uses Gemini AI with a custom system prompt to act as an "energetic esports commentator."
-   - First run: Plays a hardcoded welcome message.
-   - Subsequent: Builds a chat history for contextual, flowing commentary (e.g., "Blue team just secured the Ocean Dragon at 12:45— that's a massive regen boost!").
-   - Keeps responses concise, exciting, and focused on key events.
+1.  **Data Acquisition:** The program reads the LoL lockfile to securely connect to the local APIs. It then polls the League of Legends Client API (LCU) and Live Client API to fetch real-time game data, including player information and in-game events.
+2.  **Event Detection:** The script actively listens for new events as they happen, such as:
+    * Game Start: "Welcome, everyone, to the ultimate battleground!"
+    * Champion Kills: "Oh, what a play! {KillerName} just took down {VictimName}!"
+    * Objective Takes: "The Infernal Dragon has fallen to Team Blue, and the power of the flame is now with them!"
+3.  **AI Commentary Generation:** Game events and contextual player data are fed into the **Gemini AI**. The model, acting as a professional esports commentator, generates concise and impactful commentary.
+4.  **Audio Output:** The generated text is instantly sent to the **ElevenLabs API** for conversion into a high-quality audio file. This audio is then played directly through your system's speakers, providing a truly live commentary experience. 
 
-4. **Audio Output**:
-   - Converts generated text to speech using ElevenLabs API (with a chosen voice and model for fast, natural-sounding audio).
-   - Saves as MP3 and plays it immediately for real-time narration.
+---
 
-5. **Loop & Polling**:
-   - Runs every few seconds (configurable via `POLL_INTERVAL`) to ensure low-latency updates without overwhelming the system.
+### Key Features
 
-The code is structured modularly in `Hack.ipynb` (or equivalent script), with functions for API requests, event processing, AI calls, and TTS.
+* **Real-Time Event Tracking:** Captures and narrates key moments like kills, objectives, and game starts as they happen.
+* **Direct API Integration:** Utilizes the official LoL APIs for a fast, low-latency data stream without external scraping.
+* **Contextual & Dynamic AI:** The Gemini model's chat history ensures that commentary is coherent and follows the game's evolving story.
+* **High-Fidelity Audio:** ElevenLabs provides expressive, low-latency voice output for a professional feel.
+* **Spectator-Friendly:** Operates non-intrusively in spectator mode, requiring no changes to the live game environment.
+* **User-Friendly Setup:** A dedicated `ui.py` script guides you through the setup process and automatically creates the necessary `.env` file.
 
-### Example Commentary Flow
-- **Game Start**: "Welcome, ladies and gentlemen, to the ultimate battleground..."
-- **Kill Event**: "[03:45] Draven killed Lux – Oh snap! Draven axes down Lux in a brutal bot lane skirmish. That's first blood for red team!"
-- **Objective**: "[15:20] Team Blue slays the Infernal Dragon – Flames are flying! Blue team powers up with that Infernal buff—watch out for those spicy team fights ahead!"
+---
 
+### Technologies Used
 
-## Features
+* **Programming Language:** Python 3.x
+* **APIs:**
+    * League of Legends Client API (LCU) & Live Client API
+    * Google Gemini API
+    * ElevenLabs API
+* **Libraries:** All required libraries are listed in `requirements.txt`.
 
-- **Real-Time Event Tracking**: Detects and narrates key LoL events like kills, objectives, and game starts.
-- **Direct LCU & Client API Access**: Pulls live game data straight from the League client in spectator mode, ensuring **fast, low-latency updates** without relying on external scraping or slow endpoints.
-- **Contextual AI Narration**: Maintains chat history for coherent, story-like commentary.
-- **High-Quality TTS**: Uses ElevenLabs for expressive, low-latency audio.
-- **Spectator-Friendly**: Works entirely in spectator mode—no impact on active players.
-- **Extensible**: Easy to add more event types or integrate with streaming tools (e.g., OBS).
+---
 
+### Setup & Installation
 
+#### Prerequisites
 
+* The League of Legends client installed and running a game in spectator mode. This is a mandatory step, as the app requires access to the game's lockfile.
 
+#### Steps
 
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/yourusername/ai-lol-commentator.git](https://github.com/yourusername/ai-lol-commentator.git)
+    cd ai-lol-commentator
+    ```
+2.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
+3.  **Run the setup script:**
+    This will prompt you for your API keys and automatically create your `.env` file for you.
+    ```bash
+    python ui.py
+    ```
+4.  **Run the main application:**
+    With the LoL client open in spectator mode, run the main script to start the commentator.
+    ```bash
+    python main.py
+    ```
 
-## Technologies Used
+---
 
-- **Programming**: Python 3.x
-- **APIs**:
-  - League of Legends Client API (LCU) & Live Client API for game data.
-  - Google Gemini API for AI-generated commentary.
-  - ElevenLabs API for TTS.
-- **Libraries**:
-  - `requests` for HTTP calls.
-  - `time`, `uuid`, `os` for utilities.
-- **Environment**: Runs locally with LoL client open in spectator mode.
-- **No External Dependencies Beyond Basics**: Keeps it lightweight for hackathon demos.
+### Limitations & Future Improvements
 
-## Setup & Installation
+* **Latency:** Commentary is dependent on the API polling interval. A future improvement would be to integrate with a WebSocket-based system for true real-time event pushing.
+* **Deeper Context:** The current system focuses on major events. Future versions could integrate more nuanced data, such as item builds, gold leads, and player positions, for richer, more strategic commentary.
+* **Scalability:** The current implementation is designed for a single spectator instance. Scaling to support multiple concurrent games would require a more robust backend architecture.
 
-### Prerequisites
-- League of Legends client installed and running in spectator mode.
-- API Keys:
-  - Google Gemini API key (set as `gemini_api_url` in code).
-  - ElevenLabs API key (set as `ELEVENLABS_API_KEY`).
-- Python packages: Install via `pip install requests elevenlabs` (assuming ElevenLabs SDK).
+---
+
+### License
+
+This project is licensed under the MIT License.
 
 ### Steps
-1. Clone the repo:
-   ```
+
+1. **Clone the repository**  
+   ```bash
    git clone https://github.com/yourusername/ai-lol-commentator.git
    cd ai-lol-commentator
-   ```
-2. Set environment variables or update code with your API keys.
-3. Ensure LoL is running and in spectator mode for a game.
-4. Run the script:
-   ```
-   python hack.py  # Or open Hack.ipynb in Jupyter
-   ```
-   - The system will start polling and narrating!
-
-**Note**: Disable SSL verification if needed (as in code: `verify=False`). For production, use proper certs.
-
-## Usage
-
-- Launch LoL, enter spectator mode for a match.
-- Run the main loop: `main_loop()`.
-- Listen to the audio commentary play automatically as events unfold.
-- Customize: Adjust `POLL_INTERVAL` for faster/slower polling, or tweak the system prompt for different commentator styles (e.g., humorous or analytical).
-
-### Demo Video
-*(Embed or link to a short YouTube/Loom video showing the system narrating a sample game. E.g.,)  
-[![Demo Video](https://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)*
-
-## Limitations & Future Improvements
-- **Current Scope**: Focuses on core events; could expand to item builds, gold leads, or player stats.
-- **Latency**: Dependent on API polling—future: WebSocket integration for true real-time.
-- **Multi-Game Support**: Currently single-game; scale to multiple spectators.
-- **Enhancements**: Integrate with Twitch/OBS for overlays, or add multi-language support.
-
-## Contributors
-- **You**: API integration, event processing, and main loop.
-- **Your Friend**: AI pipeline, TTS integration, and commentary generation.
-
-## License
-MIT License – Feel free to fork and build upon!
